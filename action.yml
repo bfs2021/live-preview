@@ -41,11 +41,10 @@ runs:
   steps:
     - name: Install cloudflared
       shell: bash
-      run: |
-        command -v cloudflared >/dev/null && exit 0
-        curl -fsSL -o "$RUNNER_TEMP/cloudflared.deb" \
-          "https://github.com/cloudflare/cloudflared/releases/download/${{ inputs.cloudflared-version }}/cloudflared-linux-amd64.deb"
-        sudo dpkg -i "$RUNNER_TEMP/cloudflared.deb"
+      env:
+        CLOUDFLARED_VERSION: ${{ inputs.cloudflared-version }}
+        RUNNER_TEMP: ${{ runner.temp }}
+      run: bash "${{ github.action_path }}/scripts/install-cloudflared.sh"
     - name: Restore the database
       if: inputs.pg-container != '' && inputs.state-key != ''
       shell: bash

@@ -33,6 +33,8 @@ The link is printed in the log and the job summary, and is the `url` output.
    `live-preview-state` of your repository. A wrong key stops the run instead of overwriting data.
 
 ## Things to know
+- Runs on x86_64 (`ubuntu-latest`) and arm64 (`ubuntu-24.04-arm`) runners: the cloudflared package is picked from
+  `uname -m`, and any other architecture stops the install step with an error that names it.
 - The restore runs when the action starts, **after** your stack is up. If your app caches the schema at start,
   restart it after the restore (or restore from your own step by running `scripts/state.sh restore` first).
 - Use the same `state-key` every time. Treat the branch as private data: use it only in private repositories
